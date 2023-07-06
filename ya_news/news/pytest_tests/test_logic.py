@@ -1,6 +1,7 @@
 from http import HTTPStatus
 
 import pytest
+
 from pytest_django.asserts import assertRedirects, assertFormError
 from django.urls import reverse
 
@@ -16,7 +17,8 @@ def test_anonymous_user_cant_create_comment(client, slug_for_args, form_data):
     expected_url = f'{login_url}?next={url}'
     assertRedirects(response, expected_url)
     comments_count = Comment.objects.count()
-    assert comments_count == 0
+    expected_comments = 0
+    assert comments_count == expected_comments
 
 
 def test_user_can_create_comment(
@@ -26,7 +28,8 @@ def test_user_can_create_comment(
     expected_url = url + '#comments'
     assertRedirects(response, expected_url)
     comments_count = Comment.objects.count()
-    assert comments_count == 1
+    expected_comments = 1
+    assert comments_count == expected_comments
     new_comment = Comment.objects.get()
     assert new_comment.text == form_data['text']
     assert new_comment.news == news
@@ -40,7 +43,8 @@ def test_user_cant_use_bad_words(admin_client, slug_for_args):
     response = admin_client.post(url, data=bad_words_data)
     assertFormError(response, form='form', field='text', errors=WARNING)
     comments_count = Comment.objects.count()
-    assert comments_count == 0
+    expected_comments = 0
+    assert comments_count == expected_comments
 
 
 def test_author_can_edit_comment(
@@ -60,7 +64,8 @@ def test_author_can_delete_comment(
     expected_url = reverse('news:detail', args=slug_for_args) + '#comments'
     assertRedirects(response, expected_url)
     comments_count = Comment.objects.count()
-    assert comments_count == 0
+    expected_comments = 0
+    assert comments_count == expected_comments
 
 
 def test_other_user_cant_edit_comment(
@@ -79,4 +84,5 @@ def test_other_user_cant_delete_comment(
     response = admin_client.post(url)
     assert response.status_code == HTTPStatus.NOT_FOUND
     comments_count = Comment.objects.count()
-    assert comments_count == 1
+    expected_comments = 1
+    assert comments_count == expected_comments

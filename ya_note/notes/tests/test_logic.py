@@ -3,10 +3,10 @@ from http import HTTPStatus
 from django.contrib.auth import get_user_model
 from django.test import Client, TestCase
 from django.urls import reverse
+from pytils.translit import slugify
 
 from notes.models import Note
 from notes.forms import WARNING
-from pytils.translit import slugify
 
 
 User = get_user_model()

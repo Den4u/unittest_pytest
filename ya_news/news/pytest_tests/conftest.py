@@ -26,11 +26,7 @@ def anonymous_client(client):
 
 @pytest.fixture
 def news():
-    news = News.objects.create(
-        title='Новый тайтл',
-        text='Новый текст',
-    )
-    return news
+    return News.objects.create(title='Новый тайтл', text='Новый текст',)
 
 
 @pytest.fixture
@@ -47,7 +43,7 @@ def slug_for_comment(comment):
 
 @pytest.fixture
 def slug_for_args(news):
-    return(news.pk,)
+    return news.pk,
 
 
 @pytest.fixture
@@ -75,7 +71,7 @@ def all_comments(news, author):
         comment = Comment.objects.create(
             news=news,
             author=author,
-            text=f'Comment text {index}'
+            text=f'Текст комментария {index}'
         )
         comment.created = now + timedelta(days=index)
         comment.save()
