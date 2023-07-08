@@ -71,7 +71,6 @@ def all_comments(news, author):
         comment = Comment.objects.create(
             news=news,
             author=author,
-            text=f'Текст комментария {index}'
-        )
+            text=f'Текст комментария {index}')
         comment.created = now + timedelta(days=index)
         comment.save()

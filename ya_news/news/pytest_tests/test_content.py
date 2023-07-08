@@ -31,10 +31,10 @@ def test_comment_form_availability_for_different_users(
 def test_news_order(client):
     url = reverse('news:home')
     response = client.get(url)
-    object_list = response.context['object_list']
+    object_list = list(response.context['object_list'])
     sorted_list_of_news = sorted(object_list,
                                  key=lambda news: news.date, reverse=True)
-    assert object_list[0].date == sorted_list_of_news[0].date
+    assert object_list == sorted_list_of_news
 
 
 @pytest.mark.django_db
@@ -42,7 +42,7 @@ def test_news_order(client):
 def test_comments_order(client, slug_for_args):
     url = reverse('news:detail', args=slug_for_args)
     response = client.get(url)
-    object_list = response.context['news'].comment_set.all()
+    object_list = list(response.context['news'].comment_set.all())
     sorted_list_of_comments = sorted(object_list,
                                      key=lambda comment: comment.created)
-    assert object_list[0] == sorted_list_of_comments[0]
+    assert object_list == sorted_list_of_comments
