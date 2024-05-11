@@ -1,4 +1,3 @@
-## Django testing  
 ## Коллекция тестов: unittest, pytest
 ## Тесты на unittest для проекта YaNote
 ••• В файле test_routes.py:
